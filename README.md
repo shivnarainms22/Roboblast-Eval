@@ -1,5 +1,8 @@
 # RoboBlast — grenade detonation: an agent-coding eval task + verifier
 
+### → **[Read the writeup](writeup.html)** *(clone and open in a browser — a single self-contained file, no build step)*
+
+
 An evaluation environment built on **[RoboBlast: TPS Demo](https://github.com/gdquest-demos/godot-4-3d-third-person-controller)** (Godot 4.6).
 One real feature — the **grenade detonation** — is removed, an AI agent is asked to
 rebuild it from a behavioural spec alone, and a **deterministic grader scores the
