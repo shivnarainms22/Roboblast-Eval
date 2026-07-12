@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cverif0damage01"]
+
+[ext_resource type="Script" path="res://verifier/harness_damage.gd" id="1"]
+
+[node name="HarnessDamage" type="Node3D"]
+script = ExtResource("1")

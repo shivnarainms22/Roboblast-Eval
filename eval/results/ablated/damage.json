@@ -1,0 +1,63 @@
+{
+  "coverage": 0.0,
+  "dimension": "damage",
+  "inside_hit": 0,
+  "inside_total": 3,
+  "max": 35.0,
+  "outside_hit": 0,
+  "outside_total": 3,
+  "player_damaged_DIAGNOSTIC_NOT_SCORED": false,
+  "precision": 1.0,
+  "results": [
+    {
+      "alive": true,
+      "damaged": false,
+      "dist": 1.15,
+      "inside": true,
+      "moved": 0.0,
+      "name": "in_0"
+    },
+    {
+      "alive": true,
+      "damaged": false,
+      "dist": 0.83,
+      "inside": true,
+      "moved": 0.0,
+      "name": "in_1"
+    },
+    {
+      "alive": true,
+      "damaged": false,
+      "dist": 2.02,
+      "inside": true,
+      "moved": 0.0,
+      "name": "in_2"
+    },
+    {
+      "alive": true,
+      "damaged": false,
+      "dist": 6.28,
+      "inside": false,
+      "moved": 0.18,
+      "name": "out_0"
+    },
+    {
+      "alive": true,
+      "damaged": false,
+      "dist": 6.97,
+      "inside": false,
+      "moved": 0.18,
+      "name": "out_1"
+    },
+    {
+      "alive": true,
+      "damaged": false,
+      "dist": 5.4,
+      "inside": false,
+      "moved": 0.0,
+      "name": "out_2"
+    }
+  ],
+  "score": 0.0,
+  "seed": 12345
+}

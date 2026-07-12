@@ -1,0 +1,23 @@
+{
+  "label": "run1",
+  "project": "D:\\Philo Labs\\rollouts\\run1",
+  "seed": 12345,
+  "total": 55.0,
+  "max": 100,
+  "damage": 0.0,
+  "damage_max": 35.0,
+  "visual": 55.0,
+  "visual_max": 65.0,
+  "visual_parts": {
+    "appears": 10.0,
+    "fades": 10.0,
+    "fiery_hue": 8.0,
+    "flash": 0.0,
+    "fully_gone": 5.0,
+    "heat": 7.0,
+    "localized": 15.0
+  },
+  "runtime_error": "SCRIPT ERROR: Invalid call. Nonexistent function 'damage' in base 'Node3D (destroyed_box.gd)'.",
+  "damage_measured": 35.0,
+  "visual_measured": 55.0
+}

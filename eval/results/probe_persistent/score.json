@@ -1,0 +1,23 @@
+{
+  "label": "probe_persistent",
+  "project": "D:\\Philo Labs\\RoboBlast",
+  "seed": 12345,
+  "total": 75.0,
+  "max": 100,
+  "damage": 35.0,
+  "damage_max": 35.0,
+  "visual": 40.0,
+  "visual_max": 65.0,
+  "visual_parts": {
+    "appears": 10.0,
+    "fades": 0.0,
+    "fiery_hue": 8.0,
+    "flash": 0.0,
+    "fully_gone": 0.0,
+    "heat": 7.0,
+    "localized": 15.0
+  },
+  "runtime_error": "",
+  "damage_measured": 35.0,
+  "visual_measured": 40.0
+}

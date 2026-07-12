@@ -4,3 +4,6 @@ exports/
 bin/
 
 .env
+# scratch dir the verifier injects into a graded project and then deletes
+/verifier/
+

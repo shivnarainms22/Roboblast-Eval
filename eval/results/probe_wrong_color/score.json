@@ -1,0 +1,23 @@
+{
+  "label": "probe_wrong_color",
+  "project": "D:\\Philo Labs\\RoboBlast",
+  "seed": 12345,
+  "total": 87.0,
+  "max": 100,
+  "damage": 35.0,
+  "damage_max": 35.0,
+  "visual": 52.0,
+  "visual_max": 65.0,
+  "visual_parts": {
+    "appears": 10.0,
+    "fades": 10.0,
+    "fiery_hue": 0.0,
+    "flash": 5.0,
+    "fully_gone": 5.0,
+    "heat": 7.0,
+    "localized": 15.0
+  },
+  "runtime_error": "",
+  "damage_measured": 35.0,
+  "visual_measured": 52.0
+}
