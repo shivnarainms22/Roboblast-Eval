@@ -1,0 +1,25 @@
+The grenade detonation is implemented and verified. Here's what I did.
+
+## What changed
+
+**`player/explosion.gd`** (new) — a self-contained, code-driven fiery blast effect:
+- A bright **orange additive sphere** that flares from a point and expands outward (`TRANS_EXPO`), fading its alpha to zero over ~0.35s — reads as a hot, expanding burst.
+- A quick **orange light pop** (`OmniLight3D`) that decays in ~0.25s, driving the scene's glow/bloom for a "hot" flash.
+- A one-shot **spark burst** (`GPUParticles3D`) with a yellow→orange color ramp, thrown outward in all directions.
+- The node **frees itself** after the sparks finish (~0.7s), leaving nothing behind.
+
+**`player/grenade.gd`** — wired the detonation into the existing `_explode()` (which previously only played a sound):
+- `_spawn_blast_effect()` instantiates the effect at the detonation point, parented to the level so it stays put as the grenade frees itself.
+- `_apply_blast_damage()` finds every `damageables`-group body within `BLAST_RADIUS` (4m), skips the player, and calls the existing `damage(impact_point, force)` interface — pushing each target up and away from the blast, with strength falling off toward the edge. Uses the same impact-point convention as bullets.
+
+## Verification (evidence)
+
+The project shipped with **no `.godot` import cache** (an "ablated" baseline), so it wouldn't run at all — `class_name Player` failed to resolve and assets were missing. I imported it once via the editor to build the cache, after which it launches clean.
+
+I then ran a temporary headless test scene that spawned two enemies and detonated a grenade between them. Results (zero errors throughout):
+- `effect_spawned=true` — the fiery effect instantiated correctly.
+- `near_alive: true → false` — enemy at 1.5m was caught and defeated.
+- `far_alive: true` — enemy at 10m was untouched (local blast confirmed).
+- `effect_remaining_after_lifetime=0` — the effect cleaned itself up, leaving nothing behind.
+
+The temp test files were removed, and a final run of the actual game (`main.tscn`) starts with an **empty error list**.
