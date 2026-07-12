@@ -146,16 +146,18 @@ HTML = f"""<!DOCTYPE html>
           <td class="num good"><b>{S['original']['total']:g}</b></td><td>the feature, as shipped</td></tr>
       <tr><td><b>Ablated</b> <span class="muted">(what the agent sees)</span></td><td class="num">0</td><td class="num">0</td>
           <td class="num bad"><b>{S['ablated']['total']:g}</b></td><td>grenade goes bang, nothing happens</td></tr>
-      <tr><td><b>Agent run 1</b></td><td class="num bad">0</td><td class="num">55</td>
-          <td class="num warn"><b>{S['run1']['total']:g}</b></td><td>crashes at runtime, and swells</td></tr>
-      <tr><td><b>Agent run 2</b></td><td class="num bad">0</td><td class="num">55</td>
-          <td class="num warn"><b>{S['run2']['total']:g}</b></td><td>crashes at runtime, swells, self-damages</td></tr>
+      <tr><td><b>Agent run 1</b></td><td class="num bad">0 <span class="muted">(35)</span></td><td class="num">55</td>
+          <td class="num warn"><b>{S['run1']['total']:g}</b></td><td>damage works, but it crashes doing it. Swells.</td></tr>
+      <tr><td><b>Agent run 2</b></td><td class="num bad">0 <span class="muted">(35)</span></td><td class="num">55</td>
+          <td class="num warn"><b>{S['run2']['total']:g}</b></td><td>same crash. Swells. Also self-damages.</td></tr>
       <tr><td><b>Agent run 3</b></td><td class="num">35</td><td class="num">55</td>
           <td class="num warn"><b>{S['run3']['total']:g}</b></td><td>damage correct, but it swells</td></tr>
     </table>
     <p class="muted" style="margin:12px 0 0;font-size:13.5px">Agent: <b>Claude Code v2.1.207</b>,
       model <b><code>claude-opus-4-8</code></b>, with the <b>Godot MCP</b> available.
-      <code>Bash</code>, <code>WebFetch</code> and <code>WebSearch</code> disabled. Three runs.</p>
+      <code>Bash</code>, <code>WebFetch</code> and <code>WebSearch</code> disabled. Three runs.<br>
+      The bracketed <b>(35)</b> is what run1 and run2 <em>measured</em> on damage before forfeiting the
+      dimension for a runtime error. Their enemies do die. See section 3.</p>
   </div>
 
   <h2><span class="n">1.</span>Why this feature</h2>
@@ -234,6 +236,20 @@ HTML = f"""<!DOCTYPE html>
      and neither is penalised for it.</p>
   <p><b>Any runtime error during a graded run forfeits that dimension.</b> A solution that throws while
      performing the behaviour is broken, however much of it completed first.</p>
+
+  <div class="callout warn">
+    <b>To be clear about what a forfeit means.</b> run1 and run2 score <b>0/35</b> on damage, but their
+    damage logic actually <em>works</em>: both hit every in-radius enemy and spared every far one, for a
+    <b>measured 35/35</b>. Their enemies really do die. The score file records both numbers side by side
+    (<code>damage_measured: 35</code>, <code>damage: 0</code>), so nothing is hidden.
+    <p style="margin-bottom:0">They forfeit because they <b>raise a runtime error while doing it</b>. And
+      the error is not cosmetic: the group is iterated in insertion order, the debris happens to sit
+      <em>last</em>, so the loop damages all three enemies and only <em>then</em> throws. Anything added
+      to that group <b>after</b> the debris would be silently skipped, so an enemy that spawns once a
+      crate has been broken takes no damage at all. run1 gets away with it by luck of ordering, not by
+      correctness. Had I scored the measurement instead, run1 would read <b>90/100</b> and the crash would
+      vanish from the report entirely. So the rule is: <b>grade the error, not the accident.</b></p>
+  </div>
 
   <div class="callout good">
     <b>Determinism, and how it was broken.</b> A review found the grader was <em>not</em> reproducible:

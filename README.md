@@ -23,9 +23,21 @@ The grader is the point of this repo.
 |---|---|---|---|
 | Original (`main`) | 35 | 65 | **100** |
 | Ablated (`task/explosion-ablated`) | 0 | 0 | **0** |
-| `agent/run1` | 0 | 55 | **55** |
-| `agent/run2` | 0 | 55 | **55** |
+| `agent/run1` | 0 *(measured 35)* | 55 | **55** |
+| `agent/run2` | 0 *(measured 35)* | 55 | **55** |
 | `agent/run3` | 35 | 55 | **90** |
+
+> **What "0 *(measured 35)*" means.** run1 and run2's damage logic genuinely works: both hit every
+> in-radius enemy and spared every far one, for a measured 35/35. Their enemies really do die. They
+> **forfeit** the dimension because they raise a **runtime error while doing it**, and `score.json`
+> records both numbers (`damage_measured: 35`, `damage: 0`) so nothing is hidden.
+>
+> The error is not cosmetic. The group is iterated in insertion order and the debris sits *last*, so
+> the loop damages all three enemies and only *then* throws. Anything added to that group **after** the
+> debris is silently skipped, so an enemy spawning once a crate has been broken would take no damage at
+> all. run1 gets away with it by luck of ordering, not by correctness. Scoring the measurement instead
+> would put run1 at **90/100** and make the crash disappear from the report. So: **grade the error, not
+> the accident.**
 
 Agent: **Claude Code v2.1.207**, model **`claude-opus-4-8`**, with the **Godot MCP**
 available. `Bash`, `WebFetch` and `WebSearch` were disabled, and each agent worked in a
