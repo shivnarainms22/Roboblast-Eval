@@ -284,10 +284,20 @@ git worktree add ../abl task/explosion-ablated
   </div>
   <div class="callout good">
     <b>And it held, verifiably.</b> Auditing the run transcripts, <b>two of the three agents actually
-    attempted a <code>Bash</code> call</b> and were blocked:
-    <code>Error: No such tool available: Bash</code>. The lockdown is enforced in the wild, not merely
-    configured. Their solutions are also <b>code-driven</b> while the original is <b>shader-driven</b>,
-    and a cheat would have reproduced the shaders. None did, and none recovered the real 3.0 m radius.
+    reached for <code>Bash</code></b> and were refused:
+    <code>Error: No such tool available: Bash</code>. The lockdown is <b>enforced at runtime</b>, not
+    merely configured &mdash; when an agent reached for the shell, the shell was not there. The verbatim
+    tool calls and refusals are published in
+    <a href="https://github.com/shivnarainms22/Roboblast-Eval/blob/eval/eval/rollouts/README.md"><code>eval/rollouts/</code></a>,
+    along with the exact prompt and tool policy, so this is checkable rather than merely claimed.
+    <p style="margin-bottom:0"><b>And read honestly:</b> neither attempt was an attempt to <em>cheat</em>.
+    One agent wanted to locate the Godot binary, the other to grep its own log for script errors &mdash;
+    ordinary developer reflexes, not a reach for the answer. What this proves is narrower and more useful
+    than "the agents tried to escape": the restriction was <b>real at runtime</b>. The stronger evidence
+    that nobody recovered the original is the solutions themselves &mdash; all three are
+    <b>code-driven</b> while the original is <b>shader-driven</b>, none reproduced its shaders, and all
+    three chose a <b>4.0 m</b> blast radius where the original's is <b>3.0 m</b>. A copied answer would
+    not have missed that.</p>
   </div>
 
   <h2><span class="n">8.</span>Failure analysis: real defect, or grader artefact?</h2>
