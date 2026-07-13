@@ -1,6 +1,6 @@
 # RoboBlast, grenade detonation: an agent-coding eval task + verifier
 
-### → **[Read the writeup](writeup.html)** *(clone and open in a browser; a single self-contained file, no build step)*
+### → **[Read the writeup](https://shivnarainms22.github.io/Roboblast-Eval/writeup.html)** *(opens in your browser — figures, frame-by-frame comparisons, and gameplay recordings of all five builds)*
 
 An evaluation environment built on **[RoboBlast: TPS Demo](https://github.com/gdquest-demos/godot-4-3d-third-person-controller)** (Godot 4.6).
 One real feature, the **grenade detonation**, is removed. An AI agent is asked to rebuild
