@@ -387,13 +387,17 @@ git worktree add ../abl task/explosion-ablated
     <b>2. Real verifier artefacts. The grader was wrong, and I fixed it.</b>
     <p><b>Non-determinism.</b> Scores drifted with machine speed (section 3). Found by review, not by me.</p>
     <p style="margin-bottom:0"><b>A threshold in the wrong place.</b> The <code>hue</code> gate sat at
-      0.6, <em>inside</em> the cluster of correct solutions, which measure 0.57 to 0.96. That made 3
-      points a coin-flip for whichever blast happened to be smallest. Worse, a warm-<em>pixel-fraction</em>
-      is size-biased, so the gate was quietly grading <b>blast size</b>, an implementation choice, rather
-      than <b>colour</b>. Moving the boundary into the empty gap between the two populations (fiery at
-      0.57 to 0.96, blue at 0.00) took the worst-case margin from <b>+9% to +79%</b> and <b>changed no
-      score</b>. That score-neutrality is the tell that it was a genuine robustness fix and not a thumb
-      on the scale.</p>
+      0.6 &mdash; <em>inside the very cluster it had to accept</em>. Measured, every fiery effect (the
+      original, all three agent runs, and the orange probes) lands between <b>0.57 and 0.96</b>, while the
+      genuinely not-fiery ones sit at <b>0.00</b> (a blue blast) and <b>0.26</b> (a screen-space dot). So
+      0.6 was cutting straight through the accept cluster: the worst correct solution cleared it by only
+      <b>12%</b>, and one genuinely orange blast fell <em>below</em> it altogether and was marked not-fiery.
+      Worse, a warm-<em>pixel-fraction</em> is size-biased, so the gate was quietly grading <b>blast
+      size</b>, an implementation choice, rather than <b>colour</b>. The separating region, 0.26 to 0.57,
+      is <b>empty</b> &mdash; which is where the boundary belongs. At <b>0.35</b>, every fiery effect clears
+      it by at least <b>63%</b>, and the worst correct solution by <b>92%</b>. <b>No graded subject's score
+      moved.</b> That score-neutrality is the tell that it was a genuine robustness fix and not a thumb on
+      the scale.</p>
   </div>
 
   <div class="callout">
@@ -425,8 +429,9 @@ git worktree add ../abl task/explosion-ablated
       needs a real render context, because Godot's dummy renderer produces no pixels. It runs fully
       automated with no human, but on a headless CI it would need a virtual display.</li>
     <li><b>Cross-hardware reproducibility is untested.</b> Determinism is demonstrated on one machine,
-      GPU and Godot build. The margins are wide (the flash discriminator has 3 to 4× headroom, hue +79%),
-      so the risk is low, but it is untested and I would rather say so.</li>
+      GPU and Godot build. The margins are wide (the flash discriminator has 3 to 4× headroom; every fiery
+      effect clears the hue gate by at least 63%), so the risk is low, but it is untested and I would
+      rather say so.</li>
     <li><b>The verifier cannot rank two <em>equally good</em> attempts.</b> run1 and run2 tie at 55 with
       identical visual sub-scores despite very different effects, because every sub-behaviour is a
       threshold test and they land on the same side of all seven. It resolves <em>categories</em>
