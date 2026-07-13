@@ -54,16 +54,52 @@ via history, branches, or the network.
   agent's inflates over **12 to 16**. Same colour, same brightness, same cleanup, wrong
   attack. It cannot be seen by eye in live play, and it is obvious frame-by-frame.
 
+## Play it yourself
+
+The most convincing thing in this repo is not a number: **play the builds back to back.**
+The agents' explosions look *fine* in motion — that is the whole point of grading them
+frame-by-frame.
+
+Requires **[Godot 4.6](https://godotengine.org/download)** and nothing else. From a clone
+of this repo:
+
+```powershell
+# Check out whichever build you want to play, side by side:
+git worktree add ../orig main                    # the real detonation
+git worktree add ../abl  task/explosion-ablated  # nothing happens (what the agent got)
+git worktree add ../r1   agent/run1              # agent attempts
+git worktree add ../r2   agent/run2
+git worktree add ../r3   agent/run3
+
+# Launch one. The first run imports the project (~20s), then the game starts:
+godot --path ../orig
+```
+
+**Controls:** `WASD` move · `Space` jump · **`Tab` to switch to the grenade launcher** ·
+right-click to aim · **left-click to throw** · `Esc` pause.
+
+Throw a grenade near the crates and the beetles. On `main` it detonates; on
+`task/explosion-ablated` it goes *bang* and nothing happens. Then try the three agent
+runs — and see whether you can spot, by eye, the defect the grader catches. (I could not.
+Recordings of all five are embedded in the [writeup](https://shivnarainms22.github.io/Roboblast-Eval/writeup.html).)
+
+> To reproduce run1's and run2's **runtime crash**, break a crate first, *then* throw a
+> grenade near the debris. That is the whole reason it stayed invisible: it needs a broken
+> crate to exist before it can fire.
+
 ## Running the verifier
 
 Requires **Godot 4.6** and PowerShell. On Windows use the `_console` build, so the
-harness's stdout is captured.
+harness's stdout (and any `SCRIPT ERROR`) is actually captured.
+
+Run these from the **root of a clone of this repo** — the relative paths below are
+resolved from there.
 
 ```powershell
 $env:GODOT4 = "C:\path\to\Godot_v4.6-stable_win64_console.exe"   # or pass -Godot
 
 # Grade any checkout of the game. Imports it, injects the harnesses, runs both
-# dimensions, writes results/<label>/, then removes itself from the target:
+# dimensions, writes eval/results/<label>/, then removes itself from the target:
 ./eval/run_verifier.ps1 -Project <path-to-a-game-checkout> -Label original
 
 # Prove discrimination. The original passes, the ablated build fails:
@@ -82,6 +118,12 @@ git worktree add ../r3 agent/run3
 
 Nothing needs to be cached beforehand: the verifier builds the Godot import cache itself
 (`--import`), so a fresh clone grades correctly.
+
+> **Note:** grading writes into **`eval/results/<label>/`**, which is a *tracked* directory
+> — so re-grading `original`, `ablated` or `run1|2|3` **overwrites the reference results
+> shipped in this repo** with your own run. That is fine (they should match), but it will
+> leave your checkout dirty. `git checkout -- eval/results` restores the shipped copies, or
+> pass a fresh `-Label` to keep them untouched.
 
 ## How it scores
 
