@@ -115,10 +115,17 @@ try {
   }
   $summary | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $results "score.json")
 
+  # Report the GRADED score, not the measured one, so the summary adds up: a forfeited
+  # dimension scores 0. The measured value is shown alongside it, so the forfeit stays
+  # legible rather than looking like the dimension was simply failed. score.json keeps
+  # both (`damage` vs `damage_measured`).
+  $dmgNote = if ($dmgErr) { "   (measured {0}, forfeited: runtime error)" -f $dmg.score } else { "" }
+  $visNote = if ($visErr) { "   (measured {0}, forfeited: runtime error)" -f $vis.score } else { "" }
+
   Write-Host ""
   Write-Host ("=========== VERIFIER RESULT [{0}] ===========" -f $Label)
-  Write-Host ("  DAMAGE : {0,5} / {1}" -f $dmg.score, $dmg.max)
-  Write-Host ("  VISUAL : {0,5} / {1}" -f $vis.score, $vis.max)
+  Write-Host ("  DAMAGE : {0,5} / {1}{2}" -f $dmgScore, $dmg.max, $dmgNote)
+  Write-Host ("  VISUAL : {0,5} / {1}{2}" -f $visScore, $vis.max, $visNote)
   Write-Host ("  TOTAL  : {0,5} / 100" -f $total)
   Write-Host "  results -> $results"
   Write-Host "============================================="
